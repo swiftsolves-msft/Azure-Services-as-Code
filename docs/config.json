@@ -1,0 +1,40 @@
+{
+	"title": "Azure Services as Code",
+	"tagline": "Azure Workshops",
+	"lead": "Learn to deploy Azure Infrastructure and Sevices as Code",
+	"description": "<short description of the workshop>",
+	"learn": [
+		"<comma-separated list of topics that will be covered>",
+		"ARM Templates",
+		"Terraform",
+		"Azure Building Blocks",
+		"Azure Key Vault"
+	],
+	"audience": [
+		"<comma-separated list of recommended audience. examples follow:>",
+		"IT Administrators",
+		"System Engineers",
+		"Network Engineers"
+	],
+	"author": "Nathan Swift",
+	"timezone": "America/New_York",
+	"format": "html",
+	"processor": "Processor",
+	"html": {
+		"theme": "azure-white",
+		"float": false,
+		"search": false,
+		"toggle_code": false,
+		"breadcrumbs": true,
+		"breadcrumb_separator": " / ",
+		"date_modified": true,
+		"twitter": [
+			"azureworkshops"
+		],
+		"buttons": [{
+			"name": "PowerPoint",
+			"icon": "fa-file-powerpoint-o",
+			"url": "https://github.com/AzureWorkshops/Azure-Services-as-Code/raw/master/AZW_Azure_Services_as_Code.pptx"
+		}]
+	}
+}

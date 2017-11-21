@@ -1,0 +1,208 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string"
+    },
+    "virtualMachineName1": {
+      "type": "string"
+    },
+    "virtualMachineName2": {
+      "type": "string"
+    },
+    "virtualMachineSize": {
+      "type": "string"
+    },
+    "adminUsername": {
+      "type": "string",
+      "description": "Username for the Virtual Machine.",
+      "defaultValue": ""
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "defaultValue": "VNET-EUS2-01"
+    },
+    "networkSecurityGroupName": {
+      "type": "string",
+      "defaultValue": "VM-NSG4"
+    },
+    "adminPassword": {
+      "type": "securestring"
+    },
+    "availabilitySetName": {
+      "type": "string",
+      "defaultValue": "ADDC-AVSet4"
+    },
+    "availabilitySetPlatformFaultDomainCount": {
+      "type": "string",
+      "defaultValue": "3"
+    },
+    "availabilitySetPlatformUpdateDomainCount": {
+      "type": "string",
+      "defaultValue": "5"
+    },
+    "diagnosticsStorageAccountName": {
+      "type": "string"
+    },
+    "diagnosticsStorageAccountId": {
+      "type": "string"
+    },
+    "subnetName": {
+      "type": "string"
+    },
+
+    "publicIpAddressType": {
+      "type": "string",
+      "defaultValue": "Dynamic"
+    },
+    "publicIpAddressSku": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "vnetId": "[resourceId('rgSwiftNetworking','Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+    "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]",
+    "vm1nic": "[concat(parameters('virtualMachineName1'), '-nic1')]",
+    "vm2nic": "[concat(parameters('virtualMachineName2'), '-nic1')]",
+    "vm1pip": "[concat(parameters('virtualMachineName1'), '-pip')]",
+    "vm2pip": "[concat(parameters('virtualMachineName2'), '-pip')]"
+  },
+  "resources": [
+    {
+      "name": "[parameters('virtualMachineName1')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2016-04-30-preview",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkInterfaces/', variables('vm1nic'))]",
+        "[concat('Microsoft.Compute/availabilitySets/', parameters('availabilitySetName'))]"
+      ],
+      "properties": {
+        "osProfile": {
+          "computerName": "[parameters('virtualMachineName1')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]",
+          "windowsConfiguration": {
+            "provisionVmAgent": "true"
+          }
+        },
+        "hardwareProfile": {
+          "vmSize": "[parameters('virtualMachineSize')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "2016-Datacenter",
+            "version": "latest"
+          },
+          "osDisk": {
+            "createOption": "FromImage",
+            "managedDisk": {
+              "storageAccountType": "Standard_LRS"
+            }
+          },
+          "dataDisks": []
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('vm1nic'))]"
+            }
+          ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": true,
+            "storageUri": "[reference(resourceId('rgarmor', 'Microsoft.Storage/storageAccounts', parameters('diagnosticsStorageAccountName')), '2015-06-15').primaryEndpoints['blob']]"
+          }
+        },
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySetName'))]"
+        }
+      }
+    },
+    {
+      "name": "[parameters('availabilitySetName')]",
+      "type": "Microsoft.Compute/availabilitySets",
+      "apiVersion": "2016-04-30-preview",
+      "location": "[parameters('location')]",
+      "properties": {
+        "platformFaultDomainCount": "[parameters('availabilitySetPlatformFaultDomainCount')]",
+        "platformUpdateDomainCount": "[parameters('availabilitySetPlatformUpdateDomainCount')]",
+        "managed": true
+      }
+    },
+    {
+      "name": "[variables('vm1nic')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2016-09-01",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIpAddresses/', variables('vm1pip'))]",
+        "[concat('Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              },
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIpAddress": {
+                "id": "[resourceId('rgSwiftAAA','Microsoft.Network/publicIpAddresses', variables('vm1pip'))]"
+              }
+            }
+          }
+        ],
+        "networkSecurityGroup": {
+          "id": "[resourceId('rgSwiftAAA', 'Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
+        }
+      }
+    },
+    {
+      "name": "[variables('vm1pip')]",
+      "type": "Microsoft.Network/publicIpAddresses",
+      "apiVersion": "2017-08-01",
+      "location": "[parameters('location')]",
+      "properties": {
+        "publicIpAllocationMethod": "[parameters('publicIpAddressType')]"
+      },
+      "sku": {
+        "name": "[parameters('publicIpAddressSku')]"
+      }
+    },
+    {
+      "name": "[parameters('networkSecurityGroupName')]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2017-06-01",
+      "location": "[parameters('location')]",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "default-allow-rdp",
+            "properties": {
+              "priority": 1000,
+              "protocol": "Tcp",
+              "access": "Allow",
+              "direction": "Inbound",
+              "sourceAddressPrefix": "*",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "3389"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+    "adminUsername": {
+      "type": "string",
+      "value": "[parameters('adminUsername')]"
+    }
+  }
+}

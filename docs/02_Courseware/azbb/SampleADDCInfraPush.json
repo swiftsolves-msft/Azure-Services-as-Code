@@ -1,0 +1,39 @@
+{
+    "$schema": "https://raw.githubusercontent.com/mspnp/template-building-blocks/master/schemas/buildingBlocks.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "buildingBlocks": {
+            "value": [
+                {
+                    "type": "VirtualMachine",
+                    "settings": {
+                        "vmCount": 2,
+                        "namePrefix": "addc",
+                        "size": "Standard_DS1_v2",
+                        "adminUsername": "",
+                        "adminPassword": "",
+                        "virtualNetwork": {
+                            "resourceGroupName": "rgSwiftNetworking",
+                            "name": "VNET-EUS2-01"
+                        },
+                        "nics": [
+                            {
+                                "isPublic": true,
+                                "privateIPAllocationMethod": "Static",
+                                "startingIPAddress": "192.168.1.202",
+                                "subnetName": "AAA"
+                            }
+                        ],
+                        "osType": "windows",
+                        "dataDisks": {
+                            "count": 1
+                        },
+                        "availabilitySet": {
+                            "name": "ADDC-AVSet3"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
