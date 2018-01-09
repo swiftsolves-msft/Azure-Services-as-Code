@@ -1,6 +1,8 @@
 Azure Services as Code<br>(1-day event)
 =======================================
 
+ 
+
 Looking to deploy complex infrastructure and services in Azure using code which
 leads to automation of architecture and solutions in Azure? Whether it’s
 PowerShell, ARM Templates, or something else we will dive into learning and
@@ -10,7 +12,8 @@ In this workshop, participants will gain in-depth knowledge of the deployment
 tools for Azure, and understand how to write declarative language to deploy
 Azure services.
 
-  
+ 
+
 **Workshop topics include:**
 
 -   Azure Deployment Tools (PowerShell, ARM Templates, Terraform, and Azure
@@ -26,7 +29,6 @@ Azure services.
 
     -   Custom Script Extensions for Post Deployment inside OS
 
-  
 **Who should attend:**
 
 -   System & Network Engineers
