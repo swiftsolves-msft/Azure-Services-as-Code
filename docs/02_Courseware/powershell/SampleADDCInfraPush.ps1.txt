@@ -1,18 +1,20 @@
-﻿# Variables for common values, Please be sure to change these for your enviroment.
+$time = get-date
+
+Write-Host $time
+
+# Variables for common values, Please be sure to change these for your enviroment.
 $rgName='rgCustomAAA' #New rg being created for addc vms and other resources needed
 $location='eastus'
 $addc001name = "vmaddceus001"
 $addc002name = "vmaddceus002"
 $vmSize = "Standard_DS2"
-$privateIp1 = "10.0.0.4"
-$privateIp2 = "10.0.0.5"
+$privateIp1 = "192.168.1.4"
+$privateIp2 = "192.168.1.5"
+$vnetname = "VNET-EUS-01"
 
 # Create user object for local username and password so new VMs created will have a local user / pass, interactive prompt
 $cred = Get-Credential -Message "Enter a username and password for the virtual machine."
 
-# Existing Virtual Nnetwork to deploy in and the RG of that VNET.
-$vnetrgname = "rgVNET"
-$vnetname = "vneteleafeus001"
 
 
 # Authenticate in Azure RM
@@ -21,7 +23,19 @@ Login-AzureRmAccount
 # Select your subscription to deploy in, interactive prompt
 $SubId = Get-AzureRmSubscription | Out-GridView -PassThru
 
-Select-AzureRmSubscription -SubscriptionId $SubId.SubscriptionId
+Set-AzureRmContext -SubscriptionId $SubId.SubscriptionId
+
+$subnetConfig = New-AzureRmVirtualNetworkSubnetConfig `
+    -Name mySubnet `
+    -AddressPrefix 192.168.1.0/24
+
+
+$vnet = New-AzureRmVirtualNetwork `
+  -ResourceGroupName $rgName `
+  -Location $location `
+  -Name $vnetname `
+  -AddressPrefix 192.168.0.0/16 `
+  -Subnet $subnetConfig
 
 #obtain object of the existing VNET to deploy VMs into, we will reference this object variable later in script.
 $vnet = Get-AzureRmVirtualNetwork -ResourceGroupName $vnetrgname -Name $vnetname
@@ -107,3 +121,7 @@ $vm = Get-AzureRmVM -Name $addc002name -ResourceGroupName $rgName
 $vm = Add-AzureRmVMDataDisk -VM $vm -Name $dataDiskName -CreateOption Attach -ManagedDiskId $dataDisk1.Id -Lun 1
 
 Update-AzureRmVM -VM $vm -ResourceGroupName $rgName
+
+$time = get-date
+
+Write-Host $time
