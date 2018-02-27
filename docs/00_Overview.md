@@ -8,4 +8,4 @@ hands on lab activities.
 
  
 
-### **Time Estimate:** TBD 8.0 hours
+### **Time Estimate:** TBD 15.0 hours
