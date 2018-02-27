@@ -1,0 +1,1 @@
+﻿az login --msi
