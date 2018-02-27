@@ -67,12 +67,25 @@ Azure services.
 
  
 
+If you do not have these tools installed on local laptop please consider
+spinning up a VM Windows 10 Pro image in Azure to use as you devbox. Once up
+check the prerequisites at top and install on azure devbox vm. If you have a
+devbox in Azure we can use Managed Identity Service which will allow the VM to
+be a AAD object against the Azure Subscription, no more passwords !
+
+[Instructions for setting up MSI on
+DevBox](https://docs.microsoft.com/en-us/azure/active-directory/msi-qs-configure-cli-windows-vm#enable-msi-on-an-existing-azure-vm).
+
+ 
+
 1.2 Writing Tools: Visual Studio Code, Portal Template Editor, Visual Studio
 
  
 
-[VS Code Extension - IntelliSense  
-](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-vscode-extension)
+[VS Code Extension -
+IntelliSense](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-vscode)
+
+ 
 
 1.3 Reference Tools: [Azure
 QuickStarts](https://azure.microsoft.com/en-us/resources/templates/), [Resource
@@ -86,7 +99,10 @@ Guide](http://download.microsoft.com/download/8/E/1/8E1DBEFA-CECE-4DC9-A813-9352
 Examples](https://github.com/terraform-providers/terraform-provider-azurerm/tree/master/examples), 
 [Terraform Providers](https://www.terraform.io/docs/providers/azurerm/),
 
-[Azure Building Blocks](https://github.com/rjmax?tab=repositories)
+[Azure Building
+Blocks](https://github.com/mspnp/template-building-blocks/tree/master/scenarios)
+
+ 
 
 **Module 2 - PowerShell**
 
@@ -118,11 +134,11 @@ Use Storage ARM Template as example
 
  
 
-[EX w/ Functions  
-](https://github.com/Azure/azure-docs-json-samples/blob/master/azure-resource-manager/parameterswithfunctions.json)
+[EX w/
+Functions](https://github.com/Azure/azure-docs-json-samples/blob/master/azure-resource-manager/parameterswithfunctions.json)
 
-[EX w/ Objects  
-](https://github.com/Azure/azure-docs-json-samples/blob/master/azure-resource-manager/parameterobject.json)
+[EX w/
+Objects](https://github.com/Azure/azure-docs-json-samples/blob/master/azure-resource-manager/parameterobject.json)
 
 3.3 Variables: Used more than once, reducing complex expressions
 
@@ -143,8 +159,8 @@ Use Storage ARM Template as example
 
 <https://github.com/rjmax/IgniteUS2017/blob/master/Chapter06.msiWindowsToKeyvault.json>
 
-[EX PIP  
-](https://github.com/Azure/azure-docs-json-samples/blob/master/azure-resource-manager/linkedtemplates/public-ip.json)
+[EX
+PIP](https://github.com/Azure/azure-docs-json-samples/blob/master/azure-resource-manager/linkedtemplates/public-ip.json)
 
  
 
@@ -219,9 +235,9 @@ Concat, splt,
 
  
 
-[Document ](https://www.terraform.io/docs/commands/graph.html)
+[Document](https://www.terraform.io/docs/commands/graph.html)
 
-Terraform graph \| dot  \> graph.dot
+Terraform graph \| dot \> graph.dot
 
  
 
