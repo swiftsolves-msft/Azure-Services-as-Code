@@ -1,4 +1,4 @@
-$time = get-date
+﻿$time = get-date
 
 Write-Host $time
 
@@ -11,6 +11,9 @@ $vmSize = "Standard_DS2"
 $privateIp1 = "192.168.1.4"
 $privateIp2 = "192.168.1.5"
 $vnetname = "VNET-EUS-01"
+$vnetrgname = "rgCustomAAA"
+
+
 
 # Create user object for local username and password so new VMs created will have a local user / pass, interactive prompt
 $cred = Get-Credential -Message "Enter a username and password for the virtual machine."
