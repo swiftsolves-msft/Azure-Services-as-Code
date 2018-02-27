@@ -83,7 +83,7 @@ DevBox](https://docs.microsoft.com/en-us/azure/active-directory/msi-qs-configure
  
 
 [VS Code Extension -
-IntelliSense](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-vscode)
+IntelliSense](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-vscode-extension)
 
  
 
