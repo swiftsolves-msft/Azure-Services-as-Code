@@ -116,7 +116,8 @@ Blocks](https://github.com/mspnp/template-building-blocks/tree/master/scenarios)
 
  
 
-2.3 PowerShell Start-Job
+2.3 PowerShell Start-Job: [Start-Job
+Persistence](https://docs.microsoft.com/en-us/powershell/azure/using-psjobs?view=azurermps-5.4.0)
 
  
 
